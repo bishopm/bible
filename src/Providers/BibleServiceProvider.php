@@ -10,7 +10,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Gate;
 
-class ConnexionServiceProvider extends ServiceProvider
+class BibleServiceProvider extends ServiceProvider
 {
     private $settings;
 
