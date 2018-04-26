@@ -61,7 +61,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Bishopm\\Bible\\BibleServiceProvider"
+                "Bishopm\\Bible\\Providers\\BibleServiceProvider"
             ]
         }
     }
