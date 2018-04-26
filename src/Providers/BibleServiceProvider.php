@@ -5,6 +5,7 @@ namespace Bishopm\Bible\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Form;
+use Bishopm\Bible\Repositories\SettingsRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -35,11 +36,10 @@ class BibleServiceProvider extends ServiceProvider
         $this->publishes([__DIR__.'/../Assets' => public_path('vendor/bishopm'),], 'public');
         config(['auth.providers.users.model'=>'Bishopm\Bible\Models\User']);
         if (Schema::hasTable('settings')) {
-            $this->initialiseSettings();
-            $finset=$settings->makearray();
+            /*$finset=$settings->makearray();
             if (($settings->getkey('site_name'))<>"Invalid") {
                 config(['app.name'=>$settings->getkey('site_name')]);
-            }
+            }*/
         }
     }
 
@@ -75,6 +75,14 @@ class BibleServiceProvider extends ServiceProvider
             'Bishopm\Bible\Repositories\ActionsRepository',
             function () {
                 $repository = new \Bishopm\Bible\Repositories\ActionsRepository(new \Bishopm\Bible\Models\Action());
+                return $repository;
+            }
+        );
+
+        $this->app->bind(
+            'Bishopm\Bible\Repositories\SettingsRepository',
+            function () {
+                $repository = new \Bishopm\Bible\Repositories\SettingsRepository(new \Bishopm\Bible\Models\Setting());
                 return $repository;
             }
         );
