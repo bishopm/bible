@@ -72,17 +72,16 @@ class BibleServiceProvider extends ServiceProvider
     private function registerBindings()
     {
         $this->app->bind(
-            'Bishopm\Bible\Repositories\ActionsRepository',
-            function () {
-                $repository = new \Bishopm\Bible\Repositories\ActionsRepository(new \Bishopm\Bible\Models\Action());
-                return $repository;
-            }
-        );
-
-        $this->app->bind(
             'Bishopm\Bible\Repositories\SettingsRepository',
             function () {
                 $repository = new \Bishopm\Bible\Repositories\SettingsRepository(new \Bishopm\Bible\Models\Setting());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Bible\Repositories\VersesRepository',
+            function () {
+                $repository = new \Bishopm\Bible\Repositories\VersesRepository(new \Bishopm\Bible\Models\Verse());
                 return $repository;
             }
         );
