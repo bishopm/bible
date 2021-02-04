@@ -39,7 +39,7 @@ class VersesController extends Controller
     public function dropdowns()
     {
         $data['books']=Book::all();
-        $data['versions']=Version::all();
+        $data['versions']=Version::orderBy('abbr')->get();
         return $data;
     }
 

@@ -16,10 +16,9 @@
         }
     ],
     "require": {
-        "illuminate/support": "7.*",
+        "illuminate/support": "8.*",
         "laravelcollective/html": "6.*",
         "laravel/ui": "2.*",
-        "tymon/jwt-auth": "1.*",
         "spatie/laravel-tags": "2.*"
     },
     "autoload": {
