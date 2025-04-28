@@ -27,7 +27,7 @@ class BibleServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../../config/bible.php', 'bible');
+        // $this->mergeConfigFrom(__DIR__.'/../../config/bible.php', 'bible');
     }
 
     /**
@@ -47,11 +47,6 @@ class BibleServiceProvider extends ServiceProvider
      */
     protected function bootForConsole(): void
     {
-        // Publishing the configuration file.
-        $this->publishes([
-            __DIR__.'/../../config/bible.php' => config_path('bible.php'),
-        ], 'bible.config');
-        
         // Publishes assets.
         $this->publishes([
             __DIR__.'/../Resources/assets' => public_path('bible'),
