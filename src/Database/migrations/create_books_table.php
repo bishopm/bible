@@ -12,6 +12,7 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id')->unsigned();
             $table->string('book');
+            $table->integer('chapters');
         });
     }
     
