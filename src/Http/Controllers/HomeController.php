@@ -9,7 +9,11 @@ class HomeController extends Controller
 {
     public function home($translation="gnt",$book=1,$chapter=1,$verse=1){
         $data['translation']=$translation;
+        $data['translations']=[
+            'gnt'=>'Good News Translation'
+        ];
         $data['book']=Book::find($book);
+        $data['allbooks']=Book::all();
         if ($chapter>1){
             $data['prev_chap']=$chapter-1;
             $data['prev_book']=$book;
