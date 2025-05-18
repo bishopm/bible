@@ -7,10 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    public function home($translation="gnt",$book=1,$chapter=1,$verse=1){
+    public function home($translation="niv",$book=1,$chapter=1,$verse=1){
         $data['translation']=$translation;
         $data['translations']=[
-            'gnt'=>'Good News Translation'
+            'gnt'=>'Good News Translation',
+            'niv'=>'New International Version',
+            'msg'=>'The Message'
         ];
         $data['book']=Book::find($book);
         $data['allbooks']=Book::all();
