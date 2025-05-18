@@ -9,6 +9,8 @@ class HomeController extends Controller
 {
     public function home($translation="niv",$book=1,$chapter=1,$verse=1){
         $data['translation']=$translation;
+        $data['chapter']=$chapter;
+        $data['book_id']=$book;
         $data['translations']=[
             'gnt'=>'Good News Translation',
             'niv'=>'New International Version',
