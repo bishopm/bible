@@ -105,7 +105,7 @@
                     }
                 @endphp
             </select>
-            <textarea class="form-control" rows="5" placeholder="New note"></textarea>
+            <textarea class="form-control my-2" rows="5" placeholder="New note"></textarea>
         @endif
       </div>
     </div>

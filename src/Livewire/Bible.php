@@ -11,7 +11,8 @@ use Livewire\Component;
 
 class Bible extends Component
 {
-    public $prev_chap, $next_chap, $prev_book, $allbooks, $book_id, $book, $next_book, $chapter, $translations, $translation, $verse, $verses, $user, $name, $password, $email, $button;
+    public $prev_chap, $next_chap, $prev_book, $allbooks, $book_id, $book, $next_book, $chapter, $translations, $translation, $verse, $verses;
+    public $user, $name, $password, $email, $button;
 
     public function mount()
     {
