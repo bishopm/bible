@@ -3,15 +3,19 @@
 namespace Bishopm\Bible\Livewire;
 
 use Bishopm\Bible\Models\Book;
+use Bishopm\Bible\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class Bible extends Component
 {
-    public $prev_chap, $next_chap, $prev_book, $allbooks, $book_id, $book, $next_book, $chapter, $translations, $translation, $verse, $verses;
+    public $prev_chap, $next_chap, $prev_book, $allbooks, $book_id, $book, $next_book, $chapter, $translations, $translation, $verse, $verses, $user, $name, $password, $email, $button;
 
     public function mount()
     {
+        $this->button="";
         $this->translation="niv";
         $this->chapter=1;
         $this->book_id=1;
@@ -21,6 +25,9 @@ class Bible extends Component
             'msg'=>'The Message'
         ];
         $this->loadpage();
+        if (Auth::check()){
+            $this->user=Auth::user();
+        }
     }
 
     public function loadpage(){
@@ -54,6 +61,36 @@ class Bible extends Component
         $this->chapter=$chap;
         $this->book_id=$bk;
         $this->loadpage();
+    }
+    
+    public function checkname(){
+        $user=User::where('email',$this->email)->first();
+        if ($user){
+            $this->name=$user->name;
+            $this->button="Login";
+        } else {
+            $this->button="Register";
+        }
+    }
+
+    public function admituser($action){
+        if ($action=="Register"){
+            $this->user=User::create([
+                'email'=>$this->email,
+                'name'=>$this->name,
+                'password'=>Hash::make($this->password)
+            ]);
+            Auth::login($this->user);
+        } else {
+            $success = auth()->attempt([
+                'email' => $this->email,
+                'password' => $this->password
+            ]);
+            if ($success){
+                $this->user=User::where('email',$this->email)->first();
+                Auth::login($this->user);
+            }
+        }
     }
 
     public function render(){

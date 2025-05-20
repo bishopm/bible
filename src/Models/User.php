@@ -4,17 +4,14 @@ namespace Bishopm\Bible\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use Althinect\FilamentSpatieRolesPermissions\Concerns\HasSuperAdmin;
-use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasRoles;
 use Filament\Panel;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles, HasSuperAdmin;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.

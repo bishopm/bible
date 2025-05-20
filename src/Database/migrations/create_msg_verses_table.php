@@ -7,18 +7,19 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('books', function($table)
+        Schema::create('msg_verses', function($table)
         {
             $table->engine = 'InnoDB';
             $table->increments('id')->unsigned();
-            $table->string('book');
-            $table->string('abbreviation');
-            $table->integer('chapters');
+            $table->integer('book_id');
+            $table->integer('chapter')->nullable();
+            $table->integer('verse')->nullable();
+            $table->text('words')->nullable();
         });
     }
     
     public function down()
     {
-        Schema::dropIfExists('books');
+        Schema::dropIfExists('msg_verses');
     }
 };
