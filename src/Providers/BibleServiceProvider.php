@@ -1,6 +1,6 @@
 <?php namespace Bishopm\Bible\Providers;
 
-use Bishopm\Bible\Livewire\Dashboard;
+use Bishopm\Bible\Livewire\Bible;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
@@ -19,7 +19,7 @@ class BibleServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'bible');
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
         $this->loadRoutesFrom(__DIR__.'/../Http/routes.php');
-        Livewire::component('dashboard', Dashboard::class);
+        Livewire::component('bible', Bible::class);
         Blade::componentNamespace('Bishopm\\Bible\\Resources\\Views\\Components', 'bible');
     }
 
