@@ -97,6 +97,10 @@ class Bible extends Component
         }
     }
 
+    public function shownote($verse){
+        dd($verse);
+    }
+
     public function render(){
         return view('bible::livewire.bible');
     }

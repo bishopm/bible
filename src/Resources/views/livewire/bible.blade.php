@@ -55,7 +55,7 @@
             @if ($verse->verse==1)
                 <span style="font-weight:bold; font-size:180%; bottom: -.2em; position:relative;">{{$verse->chapter}}</span> {{$verse->words}}
             @else
-                <sup>{{$verse->verse}}</sup> {{$verse->words}}
+                <a wire:click="shownote({{$verse->verse}})" style="text-decoration:none" href="#"><sup>{{$verse->verse}}</sup></a> {{$verse->words}}
             @endif
             <br>
         @endforeach
