@@ -57,6 +57,7 @@
             @else
                 <sup>{{$verse->verse}}</sup> {{$verse->words}}
             @endif
+            <br>
         @endforeach
     </div>
     <div class="col-md-3">
@@ -107,6 +108,15 @@
             </select>
             <textarea class="form-control my-2" rows="5" placeholder="New note"></textarea>
         @endif
+      </div>
+      <div class="text-left">
+        @forelse ($notes as $note)
+            <b>
+                {{$note->start_chapter}}:{{$note->start_verse}}@if ($note->end_chapter)-{{$note->end_chapter}}:{{$note->end_verse}}@elseif ($note->end_verse)-{{$note->end_verse}}@endif
+            </b> {{$note->note}}
+        @empty
+            No notes for this chapter
+        @endforelse
       </div>
     </div>
 </div>

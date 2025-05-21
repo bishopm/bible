@@ -3,6 +3,7 @@
 namespace Bishopm\Bible\Livewire;
 
 use Bishopm\Bible\Models\Book;
+use Bishopm\Bible\Models\Note;
 use Bishopm\Bible\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +13,7 @@ use Livewire\Component;
 class Bible extends Component
 {
     public $prev_chap, $next_chap, $prev_book, $allbooks, $book_id, $book, $next_book, $chapter, $translations, $translation, $verse, $verses;
-    public $user, $name, $password, $email, $button;
+    public $user, $name, $password, $email, $button, $notes;
 
     public function mount()
     {
@@ -56,6 +57,8 @@ class Bible extends Component
             $this->next_book=$this->book_id;
         }
         $this->verses=DB::table($this->translation . '_verses')->where('book_id',$this->book_id)->where('chapter',$this->chapter)->orderBy('verse','ASC')->get();
+        $this->notes=Note::with('user')->where(function ($q) { $q->where('book_id',$this->book_id)->where('start_chapter',$this->chapter); })
+            ->orWhere(function ($q) { $q->where('book_id',$this->book_id)->where('end_chapter',$this->chapter); })->get();
     }
 
     public function changeChapter($chap,$bk){
