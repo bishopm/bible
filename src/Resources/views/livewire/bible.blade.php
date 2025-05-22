@@ -53,7 +53,7 @@
         </div>
         @foreach ($verses as $verse)
             @if ($verse->verse==1)
-                <span style="font-weight:bold; font-size:180%; bottom: -.2em; position:relative;">{{$verse->chapter}}</span> {{$verse->words}}
+                <a wire:click="shownote({{$verse->verse}})" style="text-decoration:none" href="#"><span style="font-weight:bold; font-size:180%; bottom: -.2em; position:relative;">{{$verse->chapter}}</span></a> {{$verse->words}}
             @else
                 <a wire:click="shownote({{$verse->verse}})" style="text-decoration:none" href="#"><sup>{{$verse->verse}}</sup></a> {{$verse->words}}
             @endif
