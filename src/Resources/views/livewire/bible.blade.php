@@ -51,72 +51,115 @@
                 @endif
             </div>
         </div>
-        @foreach ($verses as $verse)
-            @if ($verse->verse==1)
-                <a wire:click="shownote({{$verse->verse}})" style="text-decoration:none" href="#"><span style="font-weight:bold; font-size:180%; bottom: -.2em; position:relative;">{{$verse->chapter}}</span></a> {{$verse->words}}
+        @foreach ($verses as $thisverse)
+            @if ($thisverse->verse==1)
+                <a wire:click="shownote({{$thisverse->verse}})" style="text-decoration:none" href="#"><span style="font-weight:bold; font-size:180%; bottom: -.2em; position:relative;">{{$thisverse->chapter}}</span></a> {{$thisverse->words}}
             @else
-                <a wire:click="shownote({{$verse->verse}})" style="text-decoration:none" href="#"><sup>{{$verse->verse}}</sup></a> {{$verse->words}}
+                <a wire:click="shownote({{$thisverse->verse}})" style="text-decoration:none" href="#"><sup>{{$thisverse->verse}}</sup></a> {{$thisverse->words}}
             @endif
             <br>
         @endforeach
     </div>
-    <div class="col-md-3">
-      <h3 class="text-center">Notes</h3>
-      <div class="text-center">
-        @if (!$user)
-            <input class="form-control" wire:model="email" placeholder="Email address" wire:change="checkname()">
-            <input type="password" class="my-2 form-control" wire:model="password" placeholder="Password">
-            @if ($button<>"")
-                <input class="my-2 form-control" wire:model="name" placeholder="Name">
-                <button class="form-control" wire:click="admituser('{{$button}}')">{{$button}}</button>
-            @endif
-        @else 
-            <h5>{{$user->name}}</h5>
-            {{$book->abbreviation}} 
-            <select>
-                @if ($chapter>1)
-                    <option value="{{$chapter-1}}">{{$chapter-1}}</option>
+    <div class="col-md-3" style="border-style:solid; border-width:1px;">
+        <ul class="nav nav-pills justify-content-center py-3">
+            <li class="nav-item">
+                <button class="nav-link active" id="notes-tab" data-bs-toggle="pill" data-bs-target="#notes" type="button" role="tab">Notes</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" id="user-tab" data-bs-toggle="pill" data-bs-target="#user" type="button" role="tab"><i class="bi bi-person-fill"></i></button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="notes" role="tabpanel" aria-labelledby="notes-tab">
+                @if ($showform)
+                    <div class="text-center">
+                        @if ($user)
+                            {{$book->abbreviation}} 
+                            <select>
+                                @if ($chapter>1)
+                                    <option value="{{$chapter-1}}">{{$chapter-1}}</option>
+                                @endif
+                                <option selected value="{{$chapter}}">{{$chapter}}</option>
+                                @if ($chapter<$book->chapters)
+                                    <option value="{{$chapter+1}}">{{$chapter+1}}</option>
+                                @endif
+                            </select>
+                            <select wire:model="startverse">
+                                @php
+                                    for ($v=1;$v<=count($verses);$v++){
+                                        if ($startverse==$v){
+                                            print "<option selected value=\"" . $v . "\">" . $v . "</option>";
+                                        } else {
+                                            print "<option value=\"" . $v . "\">" . $v . "</option>";
+                                        }
+                                    }
+                                @endphp
+                            </select>
+                            - {{$book->abbreviation}} 
+                            <select>
+                                @if ($chapter>1)
+                                    <option value="{{$chapter-1}}">{{$chapter-1}}</option>
+                                @endif
+                                <option selected value="{{$chapter}}">{{$chapter}}</option>
+                                @if ($chapter<$book->chapters)
+                                    <option value="{{$chapter+1}}">{{$chapter+1}}</option>
+                                @endif
+                            </select>
+                            <select wire:model="endverse">
+                                @php
+                                    for ($v=1;$v<=count($verses);$v++){
+                                        if ($endverse==$v){
+                                            print "<option selected value=\"" . $v . "\">" . $v . "</option>";
+                                        } else {
+                                            print "<option value=\"" . $v . "\">" . $v . "</option>";
+                                        }
+                                    }
+                                @endphp
+                            </select>
+                            <input type="hidden" wire:model="note_id">
+                            <textarea wire:model="note" class="form-control my-2" rows="5" placeholder="New note"></textarea>
+                            <div class="btn-group" role="group">
+                                <button class="form-control" wire:click="saveform">Save</button>
+                                <button class="form-control" wire:click="toggleform(false)">Cancel</button>
+                            </div>
+                        @endif
+                    </div>
                 @endif
-                <option selected value="{{$chapter}}">{{$chapter}}</option>
-                @if ($chapter<$book->chapters)
-                    <option value="{{$chapter+1}}">{{$chapter+1}}</option>
+                <div class="text-left">
+                    <ul class="list-unstyled">
+                        @forelse ($notes as $note)
+                            <li>
+                                <b>
+                                    @if ($note->start_chapter==$note->end_chapter and $note->start_verse==$note->end_verse)
+                                        <sup>{{$note->start_verse}}</sup>
+                                    @elseif ($note->start_chapter==$note->end_chapter)
+                                        <sup>{{$note->start_verse}}-{{$note->end_verse}}</sup>
+                                    @else                                    
+                                        <sup>{{$note->start_chapter}}:{{$note->start_verse}}</sup>
+                                    @endif
+                                </b> {{$note->note}}
+                            </li>
+                        @empty
+                            No notes for this chapter
+                        @endforelse
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
+                @if (!$user)
+                    <input class="form-control" wire:model="email" placeholder="Email address" wire:change="checkname()">
+                    <input type="password" class="my-2 form-control" wire:model="password" placeholder="Password">
+                    @if ($button<>"")
+                        <input class="my-2 form-control" wire:model="name" placeholder="Name">
+                        <button class="form-control" wire:click="admituser('{{$button}}')">{{$button}}</button>
+                    @endif
+                @else 
+                    <h5>
+                        {{$user->name}} 
+                        <i style="font-size: 1rem;" class="bi-x-square-fill"></i>
+                    </h5>
                 @endif
-            </select>
-            <select>
-                @php
-                    for ($v=1;$v<=count($verses);$v++){
-                        print "<option value=\"" . $v . "\">" . $v . "</option>";
-                    }
-                @endphp
-            </select>
-            - {{$book->abbreviation}} 
-            <select>
-                @if ($chapter>1)
-                    <option value="{{$chapter-1}}">{{$chapter-1}}</option>
-                @endif
-                <option selected value="{{$chapter}}">{{$chapter}}</option>
-                @if ($chapter<$book->chapters)
-                    <option value="{{$chapter+1}}">{{$chapter+1}}</option>
-                @endif
-            </select>
-            <select>
-                @php
-                    for ($v=1;$v<=count($verses);$v++){
-                        print "<option value=\"" . $v . "\">" . $v . "</option>";
-                    }
-                @endphp
-            </select>
-            <textarea class="form-control my-2" rows="5" placeholder="New note"></textarea>
-        @endif
-      </div>
-      <div class="text-left">
-        @forelse ($notes as $note)
-            <b>
-                {{$note->start_chapter}}:{{$note->start_verse}}@if ($note->end_chapter)-{{$note->end_chapter}}:{{$note->end_verse}}@elseif ($note->end_verse)-{{$note->end_verse}}@endif
-            </b> {{$note->note}}
-        @empty
-            No notes for this chapter
-        @endforelse
-      </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -3,6 +3,7 @@
 use Bishopm\Bible\Livewire\Bible;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Livewire\Livewire;
 
@@ -15,6 +16,7 @@ class BibleServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Config::set('session.lifetime',525600);
         Schema::defaultStringLength(191);
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'bible');
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
