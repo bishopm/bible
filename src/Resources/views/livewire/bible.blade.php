@@ -67,7 +67,7 @@
                     <div class="text-center">
                         @if ($user)
                             {{$book->abbreviation}} 
-                            <select>
+                            <select wire:model="startchap">
                                 @if ($chapter>1)
                                     <option value="{{$chapter-1}}">{{$chapter-1}}</option>
                                 @endif
@@ -88,7 +88,7 @@
                                 @endphp
                             </select>
                             - {{$book->abbreviation}} 
-                            <select>
+                            <select wire:model="endchap">
                                 @if ($chapter>1)
                                     <option value="{{$chapter-1}}">{{$chapter-1}}</option>
                                 @endif
@@ -122,12 +122,12 @@
                         @forelse ($notes as $note)
                             <li>
                                 <b>
-                                    @if ($note->start_chapter==$note->end_chapter and $note->start_verse==$note->end_verse)
-                                        <sup>{{$note->start_verse}}</sup>
+                                    @if ($note->start_chapter>=$note->end_chapter and $note->start_verse>=$note->end_verse)
+                                        <a style="text-decoration: none;" href="#" wire:click="editnote({{$note->id}})"><sup>{{$note->start_verse}}</sup></a>
                                     @elseif ($note->start_chapter==$note->end_chapter)
-                                        <sup>{{$note->start_verse}}-{{$note->end_verse}}</sup>
+                                        <a style="text-decoration: none;" href="#" wire:click="editnote({{$note->id}})"><sup>{{$note->start_verse}}-{{$note->end_verse}}</sup></a>
                                     @else                                    
-                                        <sup>{{$note->start_chapter}}:{{$note->start_verse}}</sup>
+                                        <a style="text-decoration: none;" href="#" wire:click="editnote({{$note->id}})"><sup>{{$note->start_chapter}}:{{$note->start_verse}}</sup></a>
                                     @endif
                                 </b> {{$note->note}}
                             </li>

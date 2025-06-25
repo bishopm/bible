@@ -13,7 +13,7 @@ use Livewire\Component;
 class Bible extends Component
 {
     public $prev_chap, $next_chap, $prev_book, $allbooks, $book_id, $book, $next_book, $chapter, $translations, $translation, $verse, $verses;
-    public $user, $name, $password, $email, $button, $notes, $startverse, $endverse, $showform, $note, $note_id;
+    public $user, $name, $password, $email, $button, $notes, $startverse, $endverse, $showform, $note, $note_id, $startchap, $endchap;
 
     public function mount()
     {
@@ -105,6 +105,25 @@ class Bible extends Component
         $this->toggleform(true);
     }
 
+    public function editnote($id){
+        $note=Note::find($id);
+        $this->note_id=$id;
+        $this->note=$note->note;
+        $this->startchap=$note->start_chapter;
+        if ($note->end_chapter){
+            $this->endchap=$note->end_chapter;
+        } else {
+            $this->endchap=$this->startchap;
+        }
+        $this->startverse=$note->start_verse;
+        if ($note->end_verse){
+            $this->endverse=$note->end_verse;
+        } else {
+            $this->endverse=$this->startverse;
+        }
+        $this->toggleform(true);
+    }
+
     public function toggleform($status){
         $this->showform=$status;
     }
@@ -120,7 +139,13 @@ class Bible extends Component
 
     public function saveform(){
         if ($this->note_id){
-            dd('Updating an existing note with: ' . $this->note);
+            $edit=Note::find($this->note_id);
+            $edit->start_chapter = $this->startchap;
+            $edit->end_chapter = $this->endchap;
+            $edit->start_verse = $this->startverse;
+            $edit->end_verse = $this->endverse;
+            $edit->note = $this->note;
+            $edit->save();
         } else {
             $new = Note:: create([
                 'user_id'=>auth()->user()->id,
