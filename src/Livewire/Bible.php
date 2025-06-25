@@ -23,8 +23,8 @@ class Bible extends Component
         $this->book_id=1;
         $this->translations=[
             'gnt'=>'Good News Translation',
-            'niv'=>'New International Version',
-            'msg'=>'The Message'
+            'msg'=>'The Message',
+            'niv'=>'New International Version'
         ];
         $this->loadpage();
         if (Auth::check()){
