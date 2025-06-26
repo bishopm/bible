@@ -23,6 +23,21 @@ class BibleServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../Http/routes.php');
         Livewire::component('bible', Bible::class);
         Blade::componentNamespace('Bishopm\\Bible\\Resources\\Views\\Components', 'bible');
+        if (env('APP_ENV')=="local"){
+            $this->publishes([
+                __DIR__.'/../Resources/pwa/local_manifest.json' => public_path('manifest.json'),
+                __DIR__.'/../Resources/pwa/local_serviceworker.js' => public_path('serviceworker.js'),
+            ]);
+        } else {
+            $this->publishes([
+                __DIR__.'/../Resources/pwa/manifest.json' => public_path('manifest.json'),
+                __DIR__.'/../Resources/pwa/serviceworker.js' => public_path('serviceworker.js'),
+            ]);
+        }
+        // Publishes assets.
+        $this->publishes([
+            __DIR__.'/../Resources/assets' => public_path('bible'),
+          ], 'assets');
     }
 
     /**
@@ -45,16 +60,4 @@ class BibleServiceProvider extends ServiceProvider
         return ['bible'];
     }
 
-    /**
-     * Console-specific booting.
-     *
-     * @return void
-     */
-    protected function bootForConsole(): void
-    {
-        // Publishes assets.
-        $this->publishes([
-            __DIR__.'/../Resources/assets' => public_path('bible'),
-          ], 'assets');
-    }
 }
