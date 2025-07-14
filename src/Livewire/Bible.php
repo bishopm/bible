@@ -22,6 +22,7 @@ class Bible extends Component
         $this->chapter=1;
         $this->book_id=1;
         $this->translations=[
+            'ceb'=>'Common English Bible',
             'gnt'=>'Good News Translation',
             'msg'=>'The Message',
             'niv'=>'New International Version'
